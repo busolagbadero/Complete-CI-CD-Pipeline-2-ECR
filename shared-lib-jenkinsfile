@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     echo "deploying"
-                    def ssh = 'docker run -d -p 8080:8080 gbaderobusola/busola:my-app-1.1' 
+                    def ssh = 'docker run -d -p 8081:8080 gbaderobusola/busola:my-app-1.1' 
                     sshagent(['Ubuntu-SSH']) {
                          sh "ssh -o StrictHostKeyChecking=no ubuntu@100.25.183.255 ${ssh}"
                         }
