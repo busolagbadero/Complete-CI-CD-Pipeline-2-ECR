@@ -8,7 +8,7 @@ pipeline {
         maven 'maven-b'
     }
     environment {
-        IMAGE_NAME = 'gbaderobusola/busola:my-app-1.1'
+        IMAGE_NAME = 'gbaderobusola/busola:my-app-1.3'
     }
    stages {
         stage('init') {
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     echo "deploying"
-                    def ssh = 'bash ./shell.sh' 
+                    def ssh = "bash ./shell.sh ${IMAGE_NAME}"
                     sshagent(['Ubuntu-SSH']) {
                          sh "scp shell.sh ubuntu@100.26.238.152:/home/ubuntu"
                          sh "scp docker-compose.yaml ubuntu@100.26.238.152:/home/ubuntu"
@@ -65,7 +65,7 @@ pipeline {
         }
 
         failure {
-            echo 'The pipeline has failedd.'
+            echo 'The pipeline has failed.'
         }
     }
 }
