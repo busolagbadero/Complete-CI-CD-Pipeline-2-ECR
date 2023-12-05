@@ -43,8 +43,9 @@ pipeline {
             steps {
                 script {
                     echo "deploying"
-                    def ssh = 'docker compose -f docker-compose.yaml up --detach' 
-                    sshagent(['ssh-ubuntu-2']) {
+                    def ssh = 'bash ./shell.sh' 
+                    sshagent(['Ubuntu-SSH']) {
+                         sh "scp shell.sh ubuntu@100.26.238.152:/home/ubuntu"
                          sh "scp docker-compose.yaml ubuntu@100.26.238.152:/home/ubuntu"
                          sh "ssh -o StrictHostKeyChecking=no ubuntu@100.26.238.152 ${ssh}"
                         }
@@ -54,17 +55,3 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo 'This will always run, regardless of the pipeline result.'
-        }
-
-        success {
-            echo 'The pipeline has succeeded!'
-        }
-
-        failure {
-            echo 'The pipeline has failed.'
-        }
-    }
-}
