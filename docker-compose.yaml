@@ -1,9 +1,9 @@
 version : '3.8'
 services:
   B-App:
-   image: gbaderobusola/busola:my-app-1.1
+   image: ${IMAGE}
    ports:
-    - 8081:80
+    - 8069:80
   postgres:
     image: postgres
     ports:
