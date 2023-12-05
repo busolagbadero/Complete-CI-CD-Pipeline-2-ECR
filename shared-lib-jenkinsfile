@@ -55,3 +55,17 @@ pipeline {
         }
     }
 
+    post {
+        always {
+            echo 'This will always run, regardless of the pipeline result.'
+        }
+
+        success {
+            echo 'The pipeline has succeeded!'
+        }
+
+        failure {
+            echo 'The pipeline has failedd.'
+        }
+    }
+}
