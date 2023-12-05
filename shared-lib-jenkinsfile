@@ -44,10 +44,11 @@ pipeline {
                 script {
                     echo "deploying"
                     def ssh = "bash ./shell.sh ${IMAGE_NAME}"
+                    def ubuntu = "ubuntu@100.26.238.152"
                     sshagent(['Ubuntu-SSH']) {
-                         sh "scp shell.sh ubuntu@100.26.238.152:/home/ubuntu"
-                         sh "scp docker-compose.yaml ubuntu@100.26.238.152:/home/ubuntu"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@100.26.238.152 ${ssh}"
+                         sh "scp shell.sh ${ubuntu}:/home/ubuntu"
+                         sh "scp docker-compose.yaml ${ubuntu}:/home/ubuntu"
+                         sh "ssh -o StrictHostKeyChecking=no ${ubuntu} ${ssh}"
                         }
                     
                 }
