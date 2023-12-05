@@ -43,9 +43,10 @@ pipeline {
             steps {
                 script {
                     echo "deploying"
-                    def ssh = 'docker run -d -p 8081:8080 gbaderobusola/busola:my-app-1.1' 
+                    def ssh = 'docker compose -f docker-compose.yaml up --detach' 
                     sshagent(['Ubuntu-SSH']) {
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@100.25.183.255 ${ssh}"
+                         sh "scp docker-compose.yaml ubuntu@100.26.238.152:/home/ubuntu"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@100.26.238.152 ${ssh}"
                         }
                     
                 }
@@ -63,7 +64,7 @@ pipeline {
         }
 
         failure {
-            echo 'The pipeline has failedd.'
+            echo 'The pipeline has failed.'
         }
     }
 }
