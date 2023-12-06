@@ -58,8 +58,7 @@ pipeline {
                     def ssh = "bash ./shell.sh ${IMAGE_NAME}"
                     def ubuntu = "ubuntu@34.203.75.206"
                     sshagent(['Ubuntu-SSH']) {
-                         sh "scp shell.sh ${ubuntu}:/home/ubuntu"
-                         sh "scp docker-compose.yaml ${ubuntu}:/home/ubuntu"
+                       
                          sh "ssh -o StrictHostKeyChecking=no ${ubuntu} ${ssh}"
                         }
                     
