@@ -1,0 +1,97 @@
+#!/usr/bin/env groovy
+@Library('jenkins-shared-library')
+def gv
+
+pipeline {
+    agent any
+    tools {
+        maven 'maven-b'
+    }
+    
+   stages {
+
+         stage('increment version') {
+            steps {
+                script {
+                    echo 'incrementing app version...'
+                    sh 'mvn build-helper:parse-version versions:set \
+                        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+                        versions:commit'
+                    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                    def version = matcher[0][1]
+                    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('init') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+                echo 'loading groovy script'
+                
+            }
+         }
+        stage('build app') {
+            steps {
+               script {
+                  echo 'building application jar...'
+                  gv.buildJar()
+               }
+            }
+        }
+        stage('build image') {
+            steps {
+                script {
+                   echo 'building docker image...'
+                   buildimage(env.IMAGE_NAME)
+                   dockerLogin()
+                   dockerPush(env.IMAGE_NAME)
+                }
+            }
+        }
+       
+       stage("deploy") {
+            steps {
+                script {
+                    echo "deploying"
+                    def ssh = "bash ./shell.sh ${IMAGE_NAME}"
+                    def ubuntu = "ubuntu@34.203.75.206"
+                    sshagent(['Ubuntu-SSH']) {
+                         sh "scp shell.sh ${ubuntu}:/home/ubuntu"
+                         sh "scp docker-compose.yaml ${ubuntu}:/home/ubuntu"
+                         sh "ssh -o StrictHostKeyChecking=no ${ubuntu} ${ssh}"
+                        }
+                    
+                }
+            }
+        }
+        stage('Push to Git') {
+            steps {
+                script {
+                    echo "Pushing to Git..."
+                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'SSH_KEY_CREDENTIAL')]) {
+                        sh 'git remote set-url origin git@github.com:busolagbadero/java-maven-version.git'
+                        sh 'git add .'
+                        sh 'git commit -m "versioning plus end"'
+                        sh 'git push origin HEAD:master'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'This will always run, regardless of the pipeline result.'
+        }
+
+        success {
+            echo 'The pipeline has succeeded!'
+        }
+
+        failure {
+            echo 'The pipeline has failed.'
+        }
+    }
+}
