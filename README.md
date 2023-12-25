@@ -2,21 +2,21 @@
 
 Building upon the prior 'Complete-CI-CD-Pipeline-1-Docker' project, the current iteration involves pushing images to Amazon Elastic Container Registry (ECR) for the build and push processes, replacing the Docker usage in the previous project.
 
-## ECR Repository Creation:
+## ECR Repository Creation
 Begin by creating an Amazon Elastic Container Registry (ECR) repository to serve as a centralized repository for storing Docker images. This repository will facilitate version control and distribution of  containerized applications.
 
 ![ola1](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-2-ECR/assets/94229949/377115f3-3039-447a-be37-eceea6233234)
 
-## Jenkins Credentials Setup:
+## Jenkins Credentials Setup
 In Jenkins, Create the necessary credentials to enable secure access to your ECR repository. This involves configuring authentication details to ensure seamless interaction between Jenkins and ECR during the image build and push processes.
 
-## Create Kubernetes Secret:
+## Create Kubernetes Secret
 Generate a Kubernetes secret containing the ECR credentials. This secret will be used by the cluster to authenticate and pull images from the ECR repository.
 
 ![ola3](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-2-ECR/assets/94229949/5959cc56-01cc-4cb5-99a4-3a74b7346800)
 
 ### Reference Secret in Deployment
-In the Kubernetes Deployment , include a reference to the created secret using the imagePullSecrets field. This ensures that the necessary credentials are available for pulling images during deployment.
+In the Kubernetes Deployment, include a reference to the created secret using the imagePullSecrets field. This ensures that the necessary credentials are available for pulling images during deployment.
 
 ### ImagePullPolicy Adjustment:
 Update the imagePullPolicy in your Kubernetes Deployment to control when the Kubernetes cluster should attempt to pull the specified images. For ECR integration, set imagePullPolicy to "Always" to ensure that the latest image is always pulled from the ECR repository.
