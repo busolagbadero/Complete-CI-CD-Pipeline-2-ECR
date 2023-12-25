@@ -13,6 +13,30 @@ Make sure you have the following prerequisites installed before setting up and r
 - AWS Credentials in Jenkins
 - Iam-authenticator.
 
+
+# Maven Tool:
+
+To ensure consistency in the Jenkins environment, configured Maven as 'maven-b' using Jenkins' global tool settings. This standardization simplifies project builds, allowing seamless management and updates of Maven installations across different Jenkins agents.
+
+![day2](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/c21335b3-22ef-479f-8dac-9f649d37117c)
+
+# Version Increment
+
+The pipeline has a stage named "increment Version". 
+
+- sh 'mvn build-helper:parse-version versions:set ...': Executes a Maven command to parse the version from the pom.xml file and increment it. The new version is then committed.
+
+- def matcher = readFile('pom.xml') =~ '<version>(.+)</version>': Reads the contents of the pom.xml file and extracts the version using a regular expression.
+
+- def version = matcher[0][1]: Assigns the extracted version to the variable version.
+
+- env.IMAGE_NAME = "$version-$BUILD_NUMBER": Constructs an environment variable IMAGE_NAME by combining the extracted version and the Jenkins build number.
+
+ The pipeline increments the version in the pom.xml file, extracts the new version and constructs an image name using the version and Jenkins build number. This image name is then stored in the environment variable IMAGE_NAME.
+
+![day19](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/c9a4d0e3-ef88-47b0-abe3-5197fc063e5a)
+
+
 In the project structure, a folder named "kubernetes" has been created to organize Kubernetes-related configuration files. Inside this "kubernetes" folder, you will find two essential files: "deployment.yaml" and "service.yaml." These files encapsulate the Kubernetes configurations needed for deploying and exposing the Java Maven application.
 
 This structured approach helps keep Kubernetes-specific configurations separate from other project files, facilitating a cleaner and more organized codebase.
