@@ -16,7 +16,7 @@ spec:
        - name: aws-registry-secret
       containers:
       - name: $APP_NAME
-        image: gbaderobusola/busola:$IMAGE_NAME
+        image: $DOCKER_REPO:$IMAGE_NAME
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
