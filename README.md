@@ -31,10 +31,17 @@ I've replaced the repeated occurrence of "java_maven_app" with a variable, makin
 
 ![day16](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/84ae5d54-42ee-4f82-a7f5-db0a4cb0cb71)
 
+## Add AWS Credentials on Jenkins
+
+Incorporating AWS credentials into Jenkins is essential for establishing secure and authenticated communication between Jenkins and AWS services. This step ensures that Jenkins has the necessary access to AWS resources, facilitating the deployment process. By providing AWS access key and secret access key, Jenkins gains the authorization to interact with the specified AWS account, enhancing the overall security and functionality of the CI/CD pipeline.
+
+![eks9](https://github.com/busolagbadero/Deploy-to-EKS-cluster-from-Jenkins/assets/94229949/1fb22c6d-c254-4a0a-8263-53d21d20718e)
+
+![eks10](https://github.com/busolagbadero/Deploy-to-EKS-cluster-from-Jenkins/assets/94229949/cd222eec-4b38-432b-b3db-f9bb80974d61)
 
 # Set Environment Variable in Jenkinsfile
 
-Environment variables can be configured in the global block, just before the stages, making them accessible to all stages. Alternatively, they can be defined within a specific stage, such as the 'Deploy_env' stage in the Jenkinsfile, limiting their scope to that particular stage.
+Environment variables can be configured in the global block, just before 'stages', making them accessible to all stages. Alternatively, they can be defined within a specific stage, such as the 'Deploy_env' stage in the Jenkinsfile, limiting their scope to that particular stage.
 
 To substitute values from the Jenkinsfile into a YAML file, use the envsubst command tool. This tool replaces environment variables in the YAML file with their corresponding values defined in the Jenkinsfile, ensuring dynamic configuration during the pipeline execution. The envsubst command needs to be installed on the system where the Jenkins pipeline is running. command to install tool is 'apt-get install gettext-base'
 
@@ -43,6 +50,8 @@ To substitute values from the Jenkinsfile into a YAML file, use the envsubst com
 ![day4](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/6b6d202f-0f6e-4336-a80f-24b78783d099)
 
 ![day17](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/0554df77-ac4d-49f3-a820-7541bc48d900)
+
+
 
 # Create Secret for Dockerhub Credentials
 
