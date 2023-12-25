@@ -57,12 +57,11 @@ pipeline {
         stage('commit version update') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'git config user.email "oguneye.lami@gmail.com"'
-                        sh 'git config user.name "busolagbadero"'
-                        sh "git remote set-url origin https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-.git"
+                    echo "Pushing to Git..."
+                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'SSH_KEY_CREDENTIAL')]) {
+                        sh 'git remote set-url origin git@github.com:busolagbadero/Complete-CI-CD-Pipeline-1-.git'
                         sh 'git add .'
-                        sh 'git commit -m "D1"'
+                        sh 'git commit -m "versioning plus end"'
                         sh 'git push origin HEAD:master'
                     }
                 }
