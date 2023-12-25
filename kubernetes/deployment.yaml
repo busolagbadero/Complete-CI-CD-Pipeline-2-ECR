@@ -13,7 +13,7 @@ spec:
         app: $APP_NAME
     spec:
       imagePullSecrets:
-       - name: my-registry-key
+       - name: aws-registry-secret
       containers:
       - name: $APP_NAME
         image: gbaderobusola/busola:$IMAGE_NAME
