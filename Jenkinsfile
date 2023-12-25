@@ -3,6 +3,10 @@ pipeline {
     tools {
         maven 'maven-b'
     }
+    environment {
+        DOCKER_SERVER = "705682182404.dkr.ecr.us-east-1.amazonaws.com"
+        DOCKER_REPO = "${DOCKER_SERVER}/java-maven-app"
+    }
     stages {
         stage("increment Version") {
             steps {
@@ -30,10 +34,10 @@ pipeline {
             steps {
                 script {
                     echo "building the docker image..."
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh "docker build -t gbaderobusola/busola:${IMAGE_NAME} ."
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh "docker push gbaderobusola/busola:${IMAGE_NAME}"
+                    withCredentials([usernamePassword(credentialsId: 'ecr-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh "docker build -t ${DOCKER_REPO}:${IMAGE_NAME} ."
+                        sh "echo $PASS | docker login -u $USER --password-stdin ${DOCKER_SERVER}"
+                        sh "docker push ${DOCKER_REPO}:${IMAGE_NAME}"
                     }
                 }
             }
