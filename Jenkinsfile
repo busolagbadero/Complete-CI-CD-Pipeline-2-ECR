@@ -59,6 +59,8 @@ pipeline {
                 script {
                     echo "Pushing to Git..."
                     withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'SSH_KEY_CREDENTIAL')]) {
+                        sh "git config user.email 'your_email@example.com'"
+                        sh 'git config user.name "Jenkins"'
                         sh 'git remote set-url origin git@github.com:busolagbadero/Complete-CI-CD-Pipeline-1-.git'
                         sh 'git add .'
                         sh 'git commit -m "CI 1"'
