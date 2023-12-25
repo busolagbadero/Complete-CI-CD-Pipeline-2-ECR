@@ -38,25 +38,37 @@ pipeline {
                 }
             }
         }
-        stage('Push to Git') {
+
+        stage('Deploy_Env') {
+            environment{
+                AWS_ACCESS_KEY_ID = credentials('Jenkins-AWS-ACCESS-KEY')
+                AWS_SECRET_ACCESS_KEY = credentials('Jenkins-AWS-SECRET-ACCESS-KEY')
+                APP_NAME = 'java-maven-app'
+            }
             steps {
                 script {
-                    echo "Pushing to Git..."
-                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'SSH_KEY_CREDENTIAL')]) {
-                        sh 'git remote set-url origin git@github.com:busolagbadero/java-maven-version.git'
-                        sh 'git add .'
-                        sh 'git commit -m "end"'
-                        sh 'git push origin HEAD:master'
-                    }
+                    echo "Deploying Docker Image"
+                    sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
+                    sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
+                   
                 }
             }
         }
-        stage('deploy') {
+        stage('commit version update') {
             steps {
                 script {
-                    echo "Deploying the application..."
+                    withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh 'git config user.email "jenkins@example.com"'
+                        sh 'git config user.name "Jenkins"'
+                        sh "git remote set-url origin https://"
+                        sh 'git add .'
+                        sh 'git commit -m "ci: version bump"'
+                        sh 'git push origin HEAD:jenkins-jobs'
+                    }
                 }
             }
         }
     }
 }
+
+        
