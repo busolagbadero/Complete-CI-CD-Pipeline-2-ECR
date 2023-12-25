@@ -44,6 +44,60 @@ To substitute values from the Jenkinsfile into a YAML file, use the envsubst com
 
 ![day17](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/0554df77-ac4d-49f3-a820-7541bc48d900)
 
+# Create Secret for Dockerhub Credentials
+
+Creating a secret key to enable Kubernetes to pull images from a private Docker repository is a crucial step for securing access.
+
+![day20](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/0884a17e-ce8d-42d5-91d3-61835bec813a)
+
+![day5](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/9d55937b-61e2-49ea-aa5d-5657864cd409)
+
+Update Kubernetes Deployment in Kubernetes Deployment.yaml  file, reference the created secret in the imagePullSecrets section:
+
+![day18](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/43e42f1b-e983-4aee-b3d9-caa3c4e88f54)
+
+This ensures that Kubernetes can authenticate with the private Docker repository using the specified secret.
+
+# GIT Commit 
+
+To enable the Jenkins pipeline to commit changes to a Git repository, generate an SSH key pair using `ssh-keygen`. The public key should be added to the Git repository settings under SSH keys, while the private key needs to be stored securely in Jenkins server credentials. This setup allows Jenkins to authenticate and perform Git commits seamlessly.
+
+![day7](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/56545e3a-5c0f-437a-89ac-d7930f1a6dee)
+
+![day8](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/ec1aef50-77b0-4f88-a67c-4f87023cf68a)
+
+# Create a Pipeline Job
+
+Create a Jenkins job on the server and initiate the pipeline using the Git repository URL. This involves configuring a job within Jenkins and triggering the pipeline execution by specifying the repository's URL.
+
+![day9](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/85a23840-8a8c-48c7-ac7b-7cbb986b1cc6)
+
+Trigger the pipeline
+
+![day10](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/e0d4d55d-a444-4322-a648-4a60cd7bdcb3)
+
+# Result
+
+![day11](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/c0781ab0-7e37-4e6f-b5e9-d78b88002874)
+
+![day12](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/a0b043da-0cf4-44b8-9da1-5174c2ff1848)
+
+![day13](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/922cba90-0afa-456e-be2f-e82baca2687b)
+
+The image name, as well as the deployment and service names, are dynamically replaced during the configuration process.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
