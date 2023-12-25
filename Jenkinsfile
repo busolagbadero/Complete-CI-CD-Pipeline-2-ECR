@@ -58,8 +58,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'git config user.email "jenkins@example.com"'
-                        sh 'git config user.name "Jenkins"'
+                        sh 'git config user.email "oguneye.lami@gmail.com"'
+                        sh 'git config user.name "busolagbadero"'
                         sh "git remote set-url origin https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-.git"
                         sh 'git add .'
                         sh 'git commit -m "D1"'
