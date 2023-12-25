@@ -93,7 +93,7 @@ This ensures that Kubernetes can authenticate with the private Docker repository
 
 # GIT Commit 
 
-To enable the Jenkins pipeline to commit changes to a Git repository, generate an SSH key pair using `ssh-keygen`. The public key should be added to the Git repository settings under SSH keys, while the private key needs to be stored securely in Jenkins server credentials. This setup allows Jenkins to authenticate and perform Git commits seamlessly.
+To enable the Jenkins pipeline to commit changes to a Git repository, generate an SSH key pair using `ssh-keygen` on the Jenkins server. The public key should be added to the Git repository settings under SSH keys, while the private key needs to be stored securely in Jenkins server credentials. This setup allows Jenkins to authenticate and perform Git commits seamlessly.
 
 ![day7](https://github.com/busolagbadero/Complete-CI-CD-Pipeline-1-/assets/94229949/56545e3a-5c0f-437a-89ac-d7930f1a6dee)
 
